@@ -60,14 +60,14 @@ public class WarpListCommand implements CommandExecutor {
 
         if (args.length > 0) {
             ChatPaginator.ChatPage page = ChatPaginator.paginate(lines.toString(), Integer.valueOf(args[0]), ChatPaginator.AVERAGE_CHAT_PAGE_WIDTH, 8);
-            sender.sendMessage(ChatColor.GRAY + "Warp List page" + ChatColor.AQUA + page.getPageNumber() + ChatColor.GRAY + " of " + ChatColor.AQUA + page.getTotalPages());
+            sender.sendMessage(ChatColor.GRAY + "Warp List page " + ChatColor.AQUA + page.getPageNumber() + ChatColor.GRAY + " of " + ChatColor.AQUA + page.getTotalPages());
             for (String line : page.getLines()) {
                 sender.sendMessage(line);
             }
             return true;
         } else {
             ChatPaginator.ChatPage page = ChatPaginator.paginate(lines.toString(), 1, ChatPaginator.AVERAGE_CHAT_PAGE_WIDTH, 8);
-            sender.sendMessage(ChatColor.GRAY + "Warp List page" + ChatColor.AQUA + page.getPageNumber() + ChatColor.GRAY + " of " + ChatColor.AQUA + page.getTotalPages());
+            sender.sendMessage(ChatColor.GRAY + "Warp List page " + ChatColor.AQUA + page.getPageNumber() + ChatColor.GRAY + " of " + ChatColor.AQUA + page.getTotalPages());
             for (String line : page.getLines()) {
                 sender.sendMessage(line);
             }
