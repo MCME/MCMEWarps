@@ -156,26 +156,3 @@ public final class PlayerWarp {
         return false;
     }
 }
-/*
-Warp document:
-{
-    "name": "myawesomewarp",
-    "inviteonly": true,
-    "owner": "meggawatts",
-    "welcome": "Welcome to Awesome Town",
-    "location": {
-        "world": "Off-Topic",
-        "x": 0,
-        "y": 5,
-        "z": 0,
-        "yaw": 180.74
-        "pitch": -0.19,
-    },
-    "invited": [
-        "q220",
-        "Ma5terMinD",
-        "Credoo",
-        "HomieNo"
-    ]
-}
-*/
