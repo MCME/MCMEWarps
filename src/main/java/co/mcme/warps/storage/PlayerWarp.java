@@ -16,7 +16,10 @@
 package co.mcme.warps.storage;
 
 import co.mcme.warps.Warps;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -96,7 +99,6 @@ public final class PlayerWarp {
     @Setter
     @Getter
     private ArrayList<String> invited;
-    @Setter
     @Getter
     private boolean dirty;
     @Setter
@@ -120,6 +122,16 @@ public final class PlayerWarp {
             invited.remove(name);
             setDirty(true);
             return true;
+        }
+    }
+
+    public void setDirty(boolean dirty) {
+        this.dirty = dirty;
+        if (dirty) {
+            try {
+                WarpDatabase.saveWarps();
+            } catch (IOException ex) {
+            }
         }
     }
 }

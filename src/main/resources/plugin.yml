@@ -13,7 +13,7 @@ commands:
     usage: /<command> [warp name]
   modifywarp:
     description: Modify a warp's details
-    usage: /<command> [warp name]
+    usage: /<command>
   listwarps:
     description: List all wavailable warps
     usage: /<command> [page number]
