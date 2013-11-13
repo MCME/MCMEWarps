@@ -1,0 +1,19 @@
+name: ${project.artifactId}
+main: co.mcme.warps.Warps
+version: ${project.version}
+website: ${project.url}
+description: Job API for MCME.
+author: meggawatts
+commands:
+  setwarp:
+    description: Create a new warp at your location
+    usage: /<command> [warp name]
+  warp:
+    description: Travel to a warp's location
+    usage: /<command> [warp name]
+  modifywarp:
+    description: Modify a warp's details
+    usage: /<command> [warp name]
+  listwarps:
+    description: List all wavailable warps
+    usage: /<command> [page number]
