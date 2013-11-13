@@ -1,5 +1,5 @@
 /*  This file is part of MCMEWarps.
- * 
+ *
  *  MCMEWarps is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -135,7 +135,7 @@ public final class PlayerWarp {
             }
         }
     }
-    
+
     public void setName(String name) {
         File playerContainer = new File(Warps.getPluginDataFolder(), "warps" + System.getProperty("file.separator") + getOwner());
         File warpFile = new File(playerContainer, getName() + ".warp");
@@ -148,8 +148,15 @@ public final class PlayerWarp {
         } catch (IOException ex) {
         }
     }
+
+    public boolean canModify(String name) {
+        if (getOwner().equals(name) || Warps.getServerInstance().getPlayer(name).hasPermission("warps.ignoreownership")) {
+            return true;
+        }
+        return false;
+    }
 }
-/* 
+/*
 Warp document:
 {
     "name": "myawesomewarp",

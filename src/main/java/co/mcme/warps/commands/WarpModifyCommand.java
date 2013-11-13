@@ -1,5 +1,5 @@
 /*  This file is part of MCMEWarps.
- * 
+ *
  *  MCMEWarps is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -136,10 +136,14 @@ public class WarpModifyCommand implements CommandExecutor {
         public Prompt acceptInput(ConversationContext cc, String string) {
             if (!warpnames.contains(string)) {
                 PlayerWarp warp = WarpDatabase.getWarp((String) cc.getSessionData("warpname"));
-                warp.setName(string);
-                warp.setDirty(true);
-                cc.setSessionData("warpname", string);
-                return new successPrompt();
+                if (warp.canModify(((Player) cc.getForWhom()).getName())) {
+                    warp.setName(string);
+                    warp.setDirty(true);
+                    cc.setSessionData("warpname", string);
+                    return new successPrompt();
+                } else {
+                    return new unownedWarpPrompt();
+                }
             } else {
                 return new failurePrompt();
             }
@@ -151,9 +155,14 @@ public class WarpModifyCommand implements CommandExecutor {
         @Override
         protected Prompt acceptValidatedInput(ConversationContext cc, boolean bln) {
             PlayerWarp warp = WarpDatabase.getWarp((String) cc.getSessionData("warpname"));
-            warp.setInviteonly(bln);
-            warp.setDirty(true);
-            return new successPrompt();
+            if (warp.canModify(((Player) cc.getForWhom()).getName())) {
+                warp.setInviteonly(bln);
+                warp.setDirty(true);
+                return new successPrompt();
+            } else {
+                return new unownedWarpPrompt();
+            }
+
         }
 
         @Override
@@ -178,9 +187,13 @@ public class WarpModifyCommand implements CommandExecutor {
         @Override
         public Prompt acceptInput(ConversationContext cc, String string) {
             PlayerWarp warp = WarpDatabase.getWarp((String) cc.getSessionData("warpname"));
-            warp.setWelcome(string);
-            warp.setDirty(true);
-            return new successPrompt();
+            if (warp.canModify(((Player) cc.getForWhom()).getName())) {
+                warp.setWelcome(string);
+                warp.setDirty(true);
+                return new successPrompt();
+            } else {
+                return new unownedWarpPrompt();
+            }
         }
     }
 
@@ -194,9 +207,14 @@ public class WarpModifyCommand implements CommandExecutor {
         @Override
         public String getPromptText(ConversationContext cc) {
             PlayerWarp warp = WarpDatabase.getWarp((String) cc.getSessionData("warpname"));
-            warp.getLocation().updateLocation(((Player) cc.getForWhom()).getLocation());
-            warp.setDirty(true);
-            return "Successfully saved the warp, " + cc.getSessionData("warpname") + "'s location to your current position.";
+            if (warp.canModify(((Player) cc.getForWhom()).getName())) {
+                warp.getLocation().updateLocation(((Player) cc.getForWhom()).getLocation());
+                warp.setDirty(true);
+                return "Successfully saved the warp, " + cc.getSessionData("warpname") + "'s location to your current position.";
+            } else {
+                return new unownedWarpPrompt().getPromptText(cc);
+            }
+
         }
     }
 
@@ -208,9 +226,8 @@ public class WarpModifyCommand implements CommandExecutor {
 
         @Override
         protected Prompt acceptValidatedInput(ConversationContext cc, Player player) {
-            Player ref = (Player) cc.getForWhom();
             PlayerWarp warp = WarpDatabase.getWarp((String) cc.getSessionData("warpname"));
-            if (warp.getOwner().equals(ref.getName())) {
+            if (warp.canModify(((Player) cc.getForWhom()).getName())) {
                 warp.invitePlayer(player.getName());
                 warp.setDirty(true);
                 return new successPrompt();
@@ -233,9 +250,8 @@ public class WarpModifyCommand implements CommandExecutor {
 
         @Override
         protected Prompt acceptValidatedInput(ConversationContext cc, Player player) {
-            Player ref = (Player) cc.getForWhom();
             PlayerWarp warp = WarpDatabase.getWarp((String) cc.getSessionData("warpname"));
-            if (warp.getOwner().equals(ref.getName())) {
+            if (warp.canModify(((Player) cc.getForWhom()).getName())) {
                 warp.uninvitePlayer(player.getName());
                 warp.setDirty(true);
                 return new successPrompt();
@@ -305,13 +321,12 @@ public class WarpModifyCommand implements CommandExecutor {
             return "You do not own that warp.";
         }
     }
-    
+
     public class warpModifyPrefix implements ConversationPrefix {
 
         @Override
         public String getPrefix(ConversationContext cc) {
             return ChatColor.DARK_AQUA + "";
         }
-        
     }
 }
