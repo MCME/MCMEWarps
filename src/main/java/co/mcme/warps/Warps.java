@@ -27,6 +27,7 @@ import lombok.Getter;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
 
 public class Warps extends JavaPlugin {
 
@@ -37,7 +38,7 @@ public class Warps extends JavaPlugin {
     @Getter
     static File pluginDataFolder;
     @Getter
-    static ObjectMapper JsonMapper = new ObjectMapper();
+    static ObjectMapper JsonMapper = new ObjectMapper().configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
 
     @Override
     public void onEnable() {
