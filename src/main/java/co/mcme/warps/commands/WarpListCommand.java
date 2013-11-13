@@ -1,5 +1,5 @@
 /*  This file is part of MCMEWarps.
- * 
+ *
  *  MCMEWarps is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
@@ -17,7 +17,9 @@ package co.mcme.warps.commands;
 
 import co.mcme.warps.storage.PlayerWarp;
 import co.mcme.warps.storage.WarpDatabase;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -25,6 +27,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.util.ChatPaginator;
 
 public class WarpListCommand implements CommandExecutor {
+
+    SimpleDateFormat dateformat = new SimpleDateFormat("MMM d y");
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -48,11 +52,12 @@ public class WarpListCommand implements CommandExecutor {
             if (warp.isInviteonly()) {
                 col = ChatColor.RED;
             }
+            Date date = new Date(warp.getCreateStamp());
             lines.append(col).append(warp.getName())
                     .append(ChatColor.GRAY).append(" created by ")
                     .append(ChatColor.AQUA).append(warp.getOwner())
                     .append(ChatColor.GRAY).append(" on ")
-                    .append(ChatColor.AQUA).append(warp.getCreateStamp());
+                    .append(ChatColor.AQUA).append(dateformat.format(date));
             if (first) {
                 first = false;
             }
