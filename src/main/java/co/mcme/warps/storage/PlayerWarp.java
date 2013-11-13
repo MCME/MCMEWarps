@@ -16,6 +16,7 @@
 package co.mcme.warps.storage;
 
 import co.mcme.warps.Warps;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -132,6 +133,19 @@ public final class PlayerWarp {
                 WarpDatabase.saveWarps();
             } catch (IOException ex) {
             }
+        }
+    }
+    
+    public void setName(String name) {
+        File playerContainer = new File(Warps.getPluginDataFolder(), "warps" + System.getProperty("file.separator") + getOwner());
+        File warpFile = new File(playerContainer, getName() + ".warp");
+        if (warpFile.exists()) {
+            warpFile.delete();
+        }
+        this.name = name;
+        try {
+            WarpDatabase.saveWarps();
+        } catch (IOException ex) {
         }
     }
 }
