@@ -80,7 +80,7 @@ public class WarpDatabase {
         }
         return true;
     }
-    
+
     public static void removeWarp(String name) {
         if (warps.containsKey(name)) {
             PlayerWarp warp = warps.get(name);
@@ -92,6 +92,10 @@ public class WarpDatabase {
                 }
             }
             warps.remove(name);
+            try {
+                saveWarps();
+            } catch (IOException ex) {
+            }
         }
     }
 

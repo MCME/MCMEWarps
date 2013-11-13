@@ -17,3 +17,6 @@ commands:
   listwarps:
     description: List all wavailable warps
     usage: /<command> [page number]
+  unsetwarp:
+    description: Remove warp by given name
+    usage: /<command> [warp name]

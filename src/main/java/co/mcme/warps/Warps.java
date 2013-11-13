@@ -19,6 +19,7 @@ import co.mcme.warps.commands.WarpCommand;
 import co.mcme.warps.commands.WarpListCommand;
 import co.mcme.warps.commands.WarpModifyCommand;
 import co.mcme.warps.commands.WarpSetCommand;
+import co.mcme.warps.commands.WarpUnsetCommand;
 import co.mcme.warps.storage.WarpDatabase;
 import java.io.File;
 import java.io.IOException;
@@ -56,6 +57,7 @@ public class Warps extends JavaPlugin {
         getCommand("warp").setExecutor(new WarpCommand());
         getCommand("listwarps").setExecutor(new WarpListCommand());
         getCommand("setwarp").setExecutor(new WarpSetCommand());
+        getCommand("unsetwarp").setExecutor(new WarpUnsetCommand());
         getCommand("modifywarp").setExecutor(new WarpModifyCommand());
     }
 
