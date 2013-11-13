@@ -15,20 +15,63 @@
  */
 package co.mcme.warps.commands;
 
+import co.mcme.warps.storage.PlayerWarp;
 import co.mcme.warps.storage.WarpDatabase;
-import java.util.Set;
+import java.util.ArrayList;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.util.ChatPaginator;
 
 public class WarpListCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        Set<String> warpnames = WarpDatabase.getWarps().keySet();
-        if (args.length > 0) {
-            // has page number
+        ArrayList<PlayerWarp> list = new ArrayList();
+        for (PlayerWarp warp : WarpDatabase.getWarps().values()) {
+            if (warp.isInviteonly()) {
+                if (warp.getInvited().contains(sender.getName())) {
+                    list.add(warp);
+                }
+            } else {
+                list.add(warp);
+            }
         }
-        return false;
+        StringBuilder lines = new StringBuilder();
+        boolean first = true;
+        for (PlayerWarp warp : list) {
+            if (!first) {
+                lines.append("\n");
+            }
+            ChatColor col = ChatColor.GREEN;
+            if (warp.isInviteonly()) {
+                col = ChatColor.RED;
+            }
+            lines.append(col).append(warp.getName())
+                    .append(ChatColor.GRAY).append(" created by ")
+                    .append(ChatColor.AQUA).append(warp.getOwner())
+                    .append(ChatColor.GRAY).append(" on ")
+                    .append(ChatColor.AQUA).append(warp.getCreateStamp());
+            if (first) {
+                first = false;
+            }
+        }
+
+        if (args.length > 0) {
+            ChatPaginator.ChatPage page = ChatPaginator.paginate(lines.toString(), Integer.valueOf(args[0]), ChatPaginator.AVERAGE_CHAT_PAGE_WIDTH, 8);
+            sender.sendMessage(ChatColor.GRAY + "Warp List page" + ChatColor.AQUA + page.getPageNumber() + ChatColor.GRAY + " of " + ChatColor.AQUA + page.getTotalPages());
+            for (String line : page.getLines()) {
+                sender.sendMessage(line);
+            }
+            return true;
+        } else {
+            ChatPaginator.ChatPage page = ChatPaginator.paginate(lines.toString(), 1, ChatPaginator.AVERAGE_CHAT_PAGE_WIDTH, 8);
+            sender.sendMessage(ChatColor.GRAY + "Warp List page" + ChatColor.AQUA + page.getPageNumber() + ChatColor.GRAY + " of " + ChatColor.AQUA + page.getTotalPages());
+            for (String line : page.getLines()) {
+                sender.sendMessage(line);
+            }
+            return true;
+        }
     }
 }
