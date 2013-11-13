@@ -49,8 +49,10 @@ public class WarpSetCommand implements CommandExecutor {
                     if (WarpDatabase.addWarp((OfflinePlayer) sender, loc, inviteOnly, name)) {
                         PlayerWarp warp = WarpDatabase.getWarp(name);
                         sender.sendMessage(ChatColor.GREEN + "Successfully created warp, " + name);
+                        return true;
                     } else {
                         sender.sendMessage(ChatColor.RED + "Could not create warp, " + name);
+                        return true;
                     }
                 } else {
                     sender.sendMessage(ChatColor.RED + "A warp by that name already exists");
@@ -64,6 +66,5 @@ public class WarpSetCommand implements CommandExecutor {
             sender.sendMessage("You must be a player to send this command.");
             return true;
         }
-        return false;
     }
 }
