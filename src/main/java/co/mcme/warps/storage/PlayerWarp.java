@@ -80,7 +80,6 @@ public final class PlayerWarp {
             pitch = newloc.getPitch();
         }
     }
-    @Setter
     @Getter
     private String name;
     @Setter

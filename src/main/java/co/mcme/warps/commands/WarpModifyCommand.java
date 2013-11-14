@@ -25,6 +25,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.conversations.BooleanPrompt;
 import org.bukkit.conversations.Conversable;
+import org.bukkit.conversations.ConversationAbandonedEvent;
+import org.bukkit.conversations.ConversationAbandonedListener;
 import org.bukkit.conversations.ConversationContext;
 import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.conversations.ConversationPrefix;
@@ -36,7 +38,7 @@ import org.bukkit.conversations.StringPrompt;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-public class WarpModifyCommand implements CommandExecutor {
+public class WarpModifyCommand implements CommandExecutor, ConversationAbandonedListener {
 
     private ConversationFactory conversationFactory;
 
@@ -45,9 +47,10 @@ public class WarpModifyCommand implements CommandExecutor {
                 .withModality(true)
                 .withFirstPrompt(new whichWarp())
                 .withEscapeSequence("/cancel")
-                .withTimeout(30)
+                .withTimeout(300)
                 .thatExcludesNonPlayersWithMessage("You must be a player to send thus command")
-                .withPrefix(new warpModifyPrefix());
+                .withPrefix(new warpModifyPrefix())
+                .addConversationAbandonedListener(this);
     }
 
     @Override
@@ -57,6 +60,15 @@ public class WarpModifyCommand implements CommandExecutor {
             return true;
         } else {
             return false;
+        }
+    }
+
+    @Override
+    public void conversationAbandoned(ConversationAbandonedEvent abandonedEvent) {
+        if (abandonedEvent.gracefulExit()) {
+            abandonedEvent.getContext().getForWhom().sendRawMessage(ChatColor.AQUA + "Modify Warp exited.");
+        } else {
+            abandonedEvent.getContext().getForWhom().sendRawMessage(ChatColor.AQUA + "Modify Warp timed out");
         }
     }
 
@@ -76,7 +88,7 @@ public class WarpModifyCommand implements CommandExecutor {
                 cc.setSessionData("warpname", string);
                 return new whichAttribute();
             } else {
-                return Prompt.END_OF_CONVERSATION;
+                return new unknownWarpPrompt();
             }
         }
     }
@@ -91,7 +103,7 @@ public class WarpModifyCommand implements CommandExecutor {
 
         @Override
         public String getPromptText(ConversationContext cc) {
-            return "What attribute would you like to modify? " + formatFixedSet();
+            return "What attribute would you like to modify? \n" + formatFixedSet();
         }
 
         @Override
@@ -162,7 +174,6 @@ public class WarpModifyCommand implements CommandExecutor {
             } else {
                 return new unownedWarpPrompt();
             }
-
         }
 
         @Override
@@ -326,7 +337,12 @@ public class WarpModifyCommand implements CommandExecutor {
 
         @Override
         public String getPrefix(ConversationContext cc) {
-            return ChatColor.DARK_AQUA + "";
+            String prefix = ChatColor.GRAY + "";
+            String warpname = (String) cc.getSessionData("warpname");
+            if (warpname != null) {
+                prefix += "editing " + ChatColor.GOLD + warpname + ChatColor.AQUA + "\n";
+            }
+            return prefix;
         }
     }
 }
