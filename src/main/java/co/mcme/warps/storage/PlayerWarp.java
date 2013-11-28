@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 
@@ -96,7 +97,7 @@ public final class PlayerWarp {
     private location location;
     @Setter
     @Getter
-    private ArrayList<String> invited;
+    private ArrayList<String> invited = new ArrayList();
     @Getter
     private boolean dirty;
     @Setter
@@ -109,6 +110,9 @@ public final class PlayerWarp {
         } else {
             invited.add(name);
             setDirty(true);
+            if (Warps.getServerInstance().getOfflinePlayer(name).isOnline()) {
+                Warps.getServerInstance().getPlayer(name).sendMessage(ChatColor.GREEN + "You have been invited to /warp " + getName());
+            }
             return true;
         }
     }
@@ -119,6 +123,9 @@ public final class PlayerWarp {
         } else {
             invited.remove(name);
             setDirty(true);
+            if (Warps.getServerInstance().getOfflinePlayer(name).isOnline()) {
+                Warps.getServerInstance().getPlayer(name).sendMessage(ChatColor.RED + "You have been uninvited from " + getName());
+            }
             return true;
         }
     }

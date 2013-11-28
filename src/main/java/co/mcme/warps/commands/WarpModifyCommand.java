@@ -169,6 +169,7 @@ public class WarpModifyCommand implements CommandExecutor, ConversationAbandoned
             PlayerWarp warp = WarpDatabase.getWarp((String) cc.getSessionData("warpname"));
             if (warp.canModify(((Player) cc.getForWhom()).getName())) {
                 warp.setInviteonly(bln);
+                warp.invitePlayer(((Player) cc.getForWhom()).getName());
                 warp.setDirty(true);
                 return new successPrompt();
             } else {

@@ -35,7 +35,7 @@ public class WarpListCommand implements CommandExecutor {
         ArrayList<PlayerWarp> list = new ArrayList();
         for (PlayerWarp warp : WarpDatabase.getWarps().values()) {
             if (warp.isInviteonly()) {
-                if (warp.getInvited().contains(sender.getName())) {
+                if (warp.getInvited() != null && warp.getInvited().contains(sender.getName())) {
                     list.add(warp);
                 }
             } else {
