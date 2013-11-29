@@ -84,7 +84,7 @@ public class WarpDatabase {
     public static void removeWarp(String name) {
         if (warps.containsKey(name)) {
             PlayerWarp warp = warps.get(name);
-            File playerContainer = new File(Warps.getPluginDataFolder(), "warps" + System.getProperty("file.separator") + warp.getOwner());
+            File playerContainer = new File(Warps.getPluginDataFolder(), "warps" + Warps.getFileSeperator() + warp.getOwner());
             if (playerContainer.exists()) {
                 File warpFile = new File(playerContainer, warp.getName() + ".warp");
                 if (warpFile.exists()) {
@@ -101,7 +101,7 @@ public class WarpDatabase {
 
     public static void saveWarps() throws IOException {
         for (PlayerWarp warp : warps.values()) {
-            File playerContainer = new File(Warps.getPluginDataFolder(), "warps" + System.getProperty("file.separator") + warp.getOwner());
+            File playerContainer = new File(Warps.getPluginDataFolder(), "warps" + Warps.getFileSeperator() + warp.getOwner());
             if (!playerContainer.exists()) {
                 playerContainer.mkdirs();
             }

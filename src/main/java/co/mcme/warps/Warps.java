@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lombok.Getter;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -40,7 +41,9 @@ public class Warps extends JavaPlugin {
     @Getter
     static File pluginDataFolder;
     @Getter
-    static ObjectMapper JsonMapper = new ObjectMapper().configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+    static ObjectMapper jsonMapper = new ObjectMapper().configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+    @Getter
+    static String fileSeperator = System.getProperty("file.separator");
 
     @Override
     public void onEnable() {

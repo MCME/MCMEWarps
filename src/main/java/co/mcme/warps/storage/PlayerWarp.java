@@ -141,7 +141,7 @@ public final class PlayerWarp {
     }
 
     public void setName(String name) {
-        File playerContainer = new File(Warps.getPluginDataFolder(), "warps" + System.getProperty("file.separator") + getOwner());
+        File playerContainer = new File(Warps.getPluginDataFolder(), "warps" + Warps.getFileSeperator() + getOwner());
         File warpFile = new File(playerContainer, getName() + ".warp");
         if (warpFile.exists()) {
             warpFile.delete();
