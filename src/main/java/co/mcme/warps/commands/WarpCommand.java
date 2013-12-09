@@ -40,24 +40,26 @@ public class WarpCommand implements CommandExecutor {
                 name = name.substring(0, name.length() - 1);
                 if (warpnames.contains(name)) {
                     PlayerWarp warp = WarpDatabase.getWarp(name);
-                    if (warp.isInviteonly()) {
-                        if (warp.getOwner().equals(sender.getName()) || warp.getInvited().contains(sender.getName())) {
-                            ((Player) sender).teleport(warp.getLocation().toBukkitLocation());
-                            sender.sendMessage(getFormattedWelcome(warp, (Player) sender));
-                            return true;
-                        }
-                    } else {
+                    if (warp.canWarp((Player) sender)) {
                         ((Player) sender).teleport(warp.getLocation().toBukkitLocation());
                         sender.sendMessage(getFormattedWelcome(warp, (Player) sender));
+                        return true;
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "You are not invited to that warp.");
                         return true;
                     }
                 } else {
                     SearchResult res = SearchWarps.searchWarps(name, (Player) sender);
                     if (res.getPartial().size() > 0) {
                         PlayerWarp warp = res.getPartial().get(0);
-                        ((Player) sender).teleport(warp.getLocation().toBukkitLocation());
-                        sender.sendMessage(getFormattedWelcome(warp, (Player) sender));
-                        return true;
+                        if (warp.canWarp((Player) sender)) {
+                            ((Player) sender).teleport(warp.getLocation().toBukkitLocation());
+                            sender.sendMessage(getFormattedWelcome(warp, (Player) sender));
+                            return true;
+                        } else {
+                            sender.sendMessage(ChatColor.RED + "You are not invited to that warp.");
+                            return true;
+                        }
                     }
                     sender.sendMessage(ChatColor.RED + "No warp found by the name, " + name);
                     return true;
@@ -75,9 +77,3 @@ public class WarpCommand implements CommandExecutor {
         return coloredmessage.replaceAll("%warpname%", warp.getName()).replaceAll("%world%", warp.getLocation().getWorld()).replaceAll("%player%", p.getName()).replaceAll("%owner%", warp.getOwner());
     }
 }
-/*
- * %warpname% - The name of the warp
- * %world% - The world the warp is in
- * %player% - The player who warped
- * %owner% - The player who made the warp
- */
