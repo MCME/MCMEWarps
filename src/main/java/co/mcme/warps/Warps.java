@@ -18,11 +18,13 @@ package co.mcme.warps;
 import co.mcme.warps.commands.WarpCommand;
 import co.mcme.warps.commands.WarpListCommand;
 import co.mcme.warps.commands.WarpModifyCommand;
+import co.mcme.warps.commands.WarpSearchCommand;
 import co.mcme.warps.commands.WarpSetCommand;
 import co.mcme.warps.commands.WarpUnsetCommand;
 import co.mcme.warps.storage.WarpDatabase;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lombok.Getter;
@@ -34,15 +36,17 @@ import org.codehaus.jackson.map.SerializationConfig;
 public class Warps extends JavaPlugin {
 
     @Getter
-    static Server serverInstance;
+    private static Server serverInstance;
     @Getter
-    static Warps pluginInstance;
+    private static Warps pluginInstance;
     @Getter
-    static File pluginDataFolder;
+    private static File pluginDataFolder;
     @Getter
-    static ObjectMapper jsonMapper = new ObjectMapper().configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
+    private static ObjectMapper jsonMapper = new ObjectMapper().configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
     @Getter
-    static String fileSeperator = System.getProperty("file.separator");
+    private static String fileSeperator = System.getProperty("file.separator");
+    @Getter
+    private static SimpleDateFormat dateformat = new SimpleDateFormat("MMM d y");
 
     @Override
     public void onEnable() {
@@ -61,6 +65,7 @@ public class Warps extends JavaPlugin {
         getCommand("setwarp").setExecutor(new WarpSetCommand());
         getCommand("unsetwarp").setExecutor(new WarpUnsetCommand());
         getCommand("modifywarp").setExecutor(new WarpModifyCommand());
+        getCommand("searchwarps").setExecutor(new WarpSearchCommand());
     }
 
     @Override

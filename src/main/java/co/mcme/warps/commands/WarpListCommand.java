@@ -15,9 +15,9 @@
  */
 package co.mcme.warps.commands;
 
+import co.mcme.warps.Warps;
 import co.mcme.warps.storage.PlayerWarp;
 import co.mcme.warps.storage.WarpDatabase;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import org.bukkit.ChatColor;
@@ -27,8 +27,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.util.ChatPaginator;
 
 public class WarpListCommand implements CommandExecutor {
-
-    SimpleDateFormat dateformat = new SimpleDateFormat("MMM d y");
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -57,7 +55,7 @@ public class WarpListCommand implements CommandExecutor {
                     .append(ChatColor.GRAY).append(" created by ")
                     .append(ChatColor.AQUA).append(warp.getOwner())
                     .append(ChatColor.GRAY).append(" on ")
-                    .append(ChatColor.AQUA).append(dateformat.format(date));
+                    .append(ChatColor.AQUA).append(Warps.getDateformat().format(date));
             if (first) {
                 first = false;
             }

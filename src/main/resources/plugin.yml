@@ -20,3 +20,6 @@ commands:
   unsetwarp:
     description: Remove warp by given name
     usage: /<command> [warp name]
+  searchwarps:
+    description: Search for warps that match search text
+    usage: /<command> [search text]

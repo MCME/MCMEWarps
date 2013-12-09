@@ -28,7 +28,9 @@ import org.bukkit.OfflinePlayer;
 public class WarpDatabase {
 
     @Getter
-    private static TreeMap<String, PlayerWarp> warps = new TreeMap();
+    private final static TreeMap<String, PlayerWarp> warps = new TreeMap();
+    @Getter
+    private final static TreeMap<String, WarpCreator> warpCreators = new TreeMap();
 
     public static PlayerWarp getWarp(String name) {
         return warps.get(name);
@@ -61,6 +63,13 @@ public class WarpDatabase {
                     twarps.add(warp);
                 }
                 for (PlayerWarp warp : twarps) {
+                    WarpCreator wc;
+                    if (!warpCreators.containsKey(warp.getOwner())) {
+                        wc = new WarpCreator(warp.getOwner());
+                        warpCreators.put(warp.getOwner(), wc);
+                    }
+                    wc = warpCreators.get(warp.getOwner());
+                    wc.addWarp(warp);
                     warp.setDirty(false);
                     warps.put(warp.getName(), warp);
                 }
@@ -72,6 +81,13 @@ public class WarpDatabase {
     public static boolean addWarp(OfflinePlayer p, Location loc, boolean invite, String name) {
         PlayerWarp warp = new PlayerWarp(p, loc, invite, name);
         warps.put(warp.getName(), warp);
+        WarpCreator wc;
+        if (!warpCreators.containsKey(warp.getOwner())) {
+            wc = new WarpCreator(warp.getOwner());
+            warpCreators.put(warp.getOwner(), wc);
+        }
+        wc = warpCreators.get(warp.getOwner());
+        wc.addWarp(warp);
         try {
             saveWarps();
         } catch (IOException ex) {
@@ -91,6 +107,13 @@ public class WarpDatabase {
                 }
             }
             warps.remove(name);
+            WarpCreator wc;
+            if (!warpCreators.containsKey(warp.getOwner())) {
+                wc = new WarpCreator(warp.getOwner());
+                warpCreators.put(warp.getOwner(), wc);
+            }
+            wc = warpCreators.get(warp.getOwner());
+            wc.removeWarp(warp);
             try {
                 saveWarps();
             } catch (IOException ex) {
