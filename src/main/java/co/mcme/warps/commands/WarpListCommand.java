@@ -24,6 +24,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.util.ChatPaginator;
 
 public class WarpListCommand implements CommandExecutor {
@@ -32,11 +33,7 @@ public class WarpListCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         ArrayList<PlayerWarp> list = new ArrayList();
         for (PlayerWarp warp : WarpDatabase.getWarps().values()) {
-            if (warp.isInviteonly()) {
-                if (warp.getInvited() != null && warp.getInvited().contains(sender.getName())) {
-                    list.add(warp);
-                }
-            } else {
+            if (warp.canWarp((Player) sender)) {
                 list.add(warp);
             }
         }
