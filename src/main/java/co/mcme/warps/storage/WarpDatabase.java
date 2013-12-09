@@ -49,7 +49,6 @@ public class WarpDatabase {
         for (String pfolder : playerfolders) {
             File folder = new File(warpfolder, pfolder);
             if (folder.isDirectory()) {
-                TreeMap umap = new TreeMap();
                 String[] pwarps = folder.list(new FilenameFilter() {
                     @Override
                     public boolean accept(File dir, String name) {

@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lombok.Getter;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.codehaus.jackson.map.ObjectMapper;

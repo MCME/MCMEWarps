@@ -48,7 +48,7 @@ public class WarpModifyCommand implements CommandExecutor, ConversationAbandoned
                 .withFirstPrompt(new whichWarp())
                 .withEscapeSequence("/cancel")
                 .withTimeout(300)
-                .thatExcludesNonPlayersWithMessage("You must be a player to send thus command")
+                .thatExcludesNonPlayersWithMessage("You must be a player to send this command")
                 .withPrefix(new warpModifyPrefix())
                 .addConversationAbandonedListener(this);
     }
