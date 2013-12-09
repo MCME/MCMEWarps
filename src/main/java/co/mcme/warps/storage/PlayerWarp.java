@@ -154,9 +154,14 @@ public final class PlayerWarp {
     }
 
     public boolean canModify(String name) {
-        if (getOwner().equals(name) || Warps.getServerInstance().getPlayer(name).hasPermission("warps.ignoreownership")) {
+        return getOwner().equals(name) || Warps.getServerInstance().getPlayer(name).hasPermission("warps.ignoreownership");
+    }
+
+    public boolean canWarp(OfflinePlayer p) {
+        if (inviteonly) {
+            return invited.contains(p.getName());
+        } else {
             return true;
         }
-        return false;
     }
 }
