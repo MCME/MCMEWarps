@@ -43,9 +43,6 @@ public class SearchWarps {
                 exact.remove(warp);
             }
         }
-        Bukkit.getLogger().info(search);
-        Bukkit.getLogger().info(exact.toString());
-        Bukkit.getLogger().info(partial.toString());
         return new SearchResult(exact, partial);
     }
 

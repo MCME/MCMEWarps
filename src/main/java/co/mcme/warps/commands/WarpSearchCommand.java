@@ -41,9 +41,7 @@ public class WarpSearchCommand implements CommandExecutor {
         if (args.length > 0) {
             String search = args[0];
             if (search.toLowerCase().contains("@")) {
-                Warps.getServerInstance().getLogger().info(search);
                 search = search.replaceAll("@", "");
-                Warps.getServerInstance().getLogger().info(search);
                 if (WarpDatabase.getWarpCreators().containsKey(search)) {
                     ArrayList<PlayerWarp> warps = WarpDatabase.getWarpCreators().get(search).getWarps();
                     StringBuilder customList = new StringBuilder();
