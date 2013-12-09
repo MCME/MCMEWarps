@@ -16,6 +16,8 @@
 package co.mcme.warps.commands;
 
 import co.mcme.warps.storage.PlayerWarp;
+import co.mcme.warps.storage.SearchWarps;
+import co.mcme.warps.storage.SearchWarps.SearchResult;
 import co.mcme.warps.storage.WarpDatabase;
 import java.util.Set;
 import org.bukkit.ChatColor;
@@ -50,6 +52,13 @@ public class WarpCommand implements CommandExecutor {
                         return true;
                     }
                 } else {
+                    SearchResult res = SearchWarps.searchWarps(name, (Player) sender);
+                    if (res.getPartial().size() > 0) {
+                        PlayerWarp warp = res.getPartial().get(0);
+                        ((Player) sender).teleport(warp.getLocation().toBukkitLocation());
+                        sender.sendMessage(getFormattedWelcome(warp, (Player) sender));
+                        return true;
+                    }
                     sender.sendMessage(ChatColor.RED + "No warp found by the name, " + name);
                     return true;
                 }
