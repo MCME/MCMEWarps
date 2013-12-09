@@ -49,7 +49,7 @@ public class WarpListCommand implements CommandExecutor {
             }
             Date date = new Date(warp.getCreateStamp());
             lines.append(col).append(warp.getName())
-                    .append(ChatColor.GRAY).append(" created by ")
+                    .append(ChatColor.GRAY).append(" by ")
                     .append(ChatColor.AQUA).append(warp.getOwner())
                     .append(ChatColor.GRAY).append(" on ")
                     .append(ChatColor.AQUA).append(Warps.getDateformat().format(date));
