@@ -159,7 +159,7 @@ public final class PlayerWarp {
 
     public boolean canWarp(OfflinePlayer p) {
         if (inviteonly) {
-            return invited.contains(p.getName()) || Warps.getServerInstance().getPlayer(name).hasPermission("warps.ignoreownership");
+            return invited.contains(p.getName()) || Warps.getServerInstance().getPlayer(p.getName()).hasPermission("warps.ignoreownership");
         } else {
             return true;
         }
