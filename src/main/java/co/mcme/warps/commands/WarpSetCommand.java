@@ -43,7 +43,10 @@ public class WarpSetCommand implements CommandExecutor {
                 }
                 name = name.replaceAll("-p ", "");
                 name = name.substring(0, name.length() - 1);
-                System.out.println(name);
+                if (name.length() > 30) {
+                    sender.sendMessage(ChatColor.RED + "The name of a warp can only be 30 characters long");
+                    return true;
+                }
                 if (!warpnames.contains(name)) {
                     Location loc = ((Player) sender).getLocation();
                     if (WarpDatabase.addWarp((OfflinePlayer) sender, loc, inviteOnly, name)) {
