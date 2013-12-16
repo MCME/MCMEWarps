@@ -149,9 +149,11 @@ public class WarpModifyCommand implements CommandExecutor, ConversationAbandoned
             if (!warpnames.contains(string)) {
                 PlayerWarp warp = WarpDatabase.getWarp((String) cc.getSessionData("warpname"));
                 if (warp.canModify(((Player) cc.getForWhom()).getName())) {
+                    WarpDatabase.removeWarp(warp);
                     warp.setName(string);
                     warp.setDirty(true);
                     cc.setSessionData("warpname", string);
+                    WarpDatabase.addWarp(warp);
                     return new successPrompt();
                 } else {
                     return new unownedWarpPrompt();

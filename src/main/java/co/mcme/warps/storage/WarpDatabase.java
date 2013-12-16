@@ -96,6 +96,23 @@ public class WarpDatabase {
         return true;
     }
 
+    public static boolean addWarp(PlayerWarp warp) {
+        warps.put(warp.getName(), warp);
+        WarpCreator wc;
+        if (!warpCreators.containsKey(warp.getOwner())) {
+            wc = new WarpCreator(warp.getOwner());
+            warpCreators.put(warp.getOwner(), wc);
+        }
+        wc = warpCreators.get(warp.getOwner());
+        wc.addWarp(warp);
+        try {
+            saveWarps();
+        } catch (IOException ex) {
+            return false;
+        }
+        return true;
+    }
+
     public static void removeWarp(String name) {
         if (warps.containsKey(name)) {
             PlayerWarp warp = warps.get(name);
@@ -118,6 +135,28 @@ public class WarpDatabase {
                 saveWarps();
             } catch (IOException ex) {
             }
+        }
+    }
+
+    public static void removeWarp(PlayerWarp warp) {
+        File playerContainer = new File(Warps.getPluginDataFolder(), "warps" + Warps.getFileSeperator() + warp.getOwner());
+        if (playerContainer.exists()) {
+            File warpFile = new File(playerContainer, warp.getName() + ".warp");
+            if (warpFile.exists()) {
+                warpFile.delete();
+            }
+        }
+        warps.remove(warp.getName());
+        WarpCreator wc;
+        if (!warpCreators.containsKey(warp.getOwner())) {
+            wc = new WarpCreator(warp.getOwner());
+            warpCreators.put(warp.getOwner(), wc);
+        }
+        wc = warpCreators.get(warp.getOwner());
+        wc.removeWarp(warp);
+        try {
+            saveWarps();
+        } catch (IOException ex) {
         }
     }
 
