@@ -40,6 +40,7 @@ public class WarpUnsetCommand implements CommandExecutor {
                     PlayerWarp warp = WarpDatabase.getWarp(name);
                     if (warp.canModify(((Player) sender).getName())) {
                         WarpDatabase.removeWarp(name);
+                        sender.sendMessage(ChatColor.GREEN + "Successfully deleted the warp '" + name + "'");
                         return true;
                     } else {
                         sender.sendMessage(ChatColor.RED + "You do not have permission to delete that warp.");
